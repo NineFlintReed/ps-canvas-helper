@@ -1,0 +1,43 @@
+EVERYTHING
+    Once sorted, add the try/catches to the process blocks
+    check over the [OutputType] for all funcs
+    Eventually convert types to actual dotnet? Might be nice to make stuff read-only
+    Let all unset params map to the default values
+
+Add-CanvasEnrollment
+    allow section/course pipeline input so I can do this:
+        Get-CanvasCourse -Search '08 mathematics 01-2023' | New-CanvasEnrollment -UserId 3546 -Role Student
+        Get-CanvasUser -Search 'login@email.com' | New-CanvasEnrollment -CourseId 5000 -Role Student
+    add additional flags
+        limit_privileges_to_course_section
+        self_enrolled
+        notify
+
+Remove-CanvasEnrollment
+    allow flag to change between delete/conclude
+
+New-CanvasUser
+    make defaults configurable somehow
+    add additional flags
+
+Set-CanvasCourse
+    needs way more params
+
+
+Get-CanvasCourse
+    find by name, exception if not found
+
+Get-CanvasUser
+    find by login_id, exception if not found
+
+
+
+
+
+
+
+
+
+
+
+

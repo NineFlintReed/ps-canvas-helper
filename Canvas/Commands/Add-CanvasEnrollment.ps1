@@ -17,6 +17,13 @@ function Add-CanvasEnrollment {
         [Parameter(ParameterSetName='PipedCourse_RoleId')]
         [CanvasCourse]$PipedCourse,
 
+        [Parameter(ValueFromPipeline, DontShow)]
+        [Parameter(ParameterSetName='PipedUser_CourseId_Role')]
+        [Parameter(ParameterSetName='PipedUser_SectionId_Role')]
+        [Parameter(ParameterSetName='PipedUser_CourseId_RoleId')]
+        [Parameter(ParameterSetName='PipedUser_SectionId_RoleId')]
+        [CanvasUser]$PipedUser,
+
         [Parameter(ParameterSetName='PipedCourse_Role')]
         [Parameter(ParameterSetName='PipedCourse_RoleId')]
         [Parameter(ParameterSetName='UserId_CourseId_Role')]
@@ -25,56 +32,50 @@ function Add-CanvasEnrollment {
         [Parameter(ParameterSetName='UserId_SectionId_RoleId')]
         [Int]$UserId,
 
+        [Parameter(ParameterSetName='PipedUser_CourseId_Role')]
+        [Parameter(ParameterSetName='PipedUser_CourseId_RoleId')]
         [Parameter(ParameterSetName='UserId_CourseId_RoleId')]
         [Parameter(ParameterSetName='UserId_CourseId_Role')]
         [Int]$CourseId,
 
+        [Parameter(ParameterSetName='PipedUser_SectionId_Role')]
+        [Parameter(ParameterSetName='PipedUser_SectionId_RoleId')]
         [Parameter(ParameterSetName='UserId_SectionId_Role')]
         [Parameter(ParameterSetName='UserId_SectionId_RoleId')]
         [Int]$SectionId,
 
+        [Parameter(ParameterSetName='PipedUser_CourseId_Role')]
+        [Parameter(ParameterSetName='PipedUser_SectionId_Role')]
         [Parameter(ParameterSetName='PipedCourse_Role')]
         [Parameter(ParameterSetName='UserId_CourseId_Role')]
         [Parameter(ParameterSetName='UserId_SectionId_Role')]
         [ValidateSet('Student','Teacher','Ta','Observer','Designer')]
         [String]$Role,
 
+        [Parameter(ParameterSetName='PipedUser_CourseId_RoleId')]
+        [Parameter(ParameterSetName='PipedUser_SectionId_RoleId')]
         [Parameter(ParameterSetName='PipedCourse_RoleId')]
         [Parameter(ParameterSetName='UserId_CourseId_RoleId')]
         [Parameter(ParameterSetName='UserId_SectionId_RoleId')]
         [Int]$RoleId,
 
-        [Parameter(ParameterSetName='PipedCourse_Role')]
-        [Parameter(ParameterSetName='PipedCourse_RoleId')]
-        [Parameter(ParameterSetName='UserId_CourseId_Role')]
-        [Parameter(ParameterSetName='UserId_SectionId_Role')]
-        [Parameter(ParameterSetName='UserId_CourseId_RoleId')]
-        [Parameter(ParameterSetName='UserId_SectionId_RoleId')]
         [ValidateSet('Active','Invited','Inactive')]
         [String]$State
     )
     
     process
     {
-        ($enrollment, $uri) = switch($PSCmdlet.ParameterSetName) {
-            'UserId_CourseId_RoleId' {
-                ( @{ role_id = $RoleId }, "/api/v1/courses/$CourseId/enrollments" )
-            }
-            'UserId_SectionId_RoleId' {
-                ( @{ role_id = $RoleId }, "/api/v1/sections/$SectionId/enrollments" )
-            }
-            'PipedCourse_RoleId' {
-                ( @{ role_id = $RoleId }, "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )
-            }
-            'UserId_CourseId_Role' {
-                ( @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$CourseId/enrollments" )
-            }
-            'UserId_SectionId_Role' {
-                ( @{ type = $Role + 'Enrollment' }, "/api/v1/sections/$SectionId/enrollments" ) 
-            }
-            'PipedCourse_Role' {
-                ( @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )
-            }
+        ($user, $enrollment, $uri) = switch($PSCmdlet.ParameterSetName) {
+            'PipedUser_CourseId_RoleId'  {( $PipedUser.user_id, @{ role_id = $RoleId }          , "/api/v1/courses/$CourseId/enrollments"                 )}
+            'PipedUser_CourseId_Role'    {( $PipedUser.user_id, @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$CourseId/enrollments"                 )}
+            'PipedUser_SectionId_RoleId' {( $PipedUser.user_id, @{ role_id = $RoleId }          , "/api/v1/sections/$SectionId/enrollments"               )}
+            'PipedUser_SectionId_Role'   {( $PipedUser.user_id, @{ type = $Role + 'Enrollment' }, "/api/v1/sections/$SectionId/enrollments"               )}
+            'UserId_CourseId_RoleId'     {( $User             , @{ role_id = $RoleId }          , "/api/v1/courses/$CourseId/enrollments"                 )}
+            'UserId_SectionId_RoleId'    {( $User             , @{ role_id = $RoleId }          , "/api/v1/sections/$SectionId/enrollments"               )}
+            'PipedCourse_RoleId'         {( $User             , @{ role_id = $RoleId }          , "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )}
+            'UserId_CourseId_Role'       {( $User             , @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$CourseId/enrollments"                 )}
+            'UserId_SectionId_Role'      {( $User             , @{ type = $Role + 'Enrollment' }, "/api/v1/sections/$SectionId/enrollments"               )}
+            'PipedCourse_Role'           {( $User             , @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )}
             default {
                 throw "No handler found for parameter set $_"
             }
@@ -85,7 +86,7 @@ function Add-CanvasEnrollment {
             $false { 'active'         }
         }
 
-        $enrollment['user_id'] = $UserId
+        $enrollment['user_id'] = $user
 
         $result = Invoke-CanvasRequest 'POST' $uri @{enrollment = $enrollment}
         [CanvasEnrollment]::new($result)

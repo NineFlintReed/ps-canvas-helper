@@ -10,7 +10,7 @@ function New-CanvasUser {
         
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [String]$SisUserId,
+        [String]$UserSisId,
         
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
@@ -29,7 +29,7 @@ function New-CanvasUser {
             pseudonym = @{
                 unique_id = $LoginId
                 send_confirmation = $false
-                sis_user_id = $SisUserId
+                sis_user_id = $UserSisId
             }
             communication_channel = @{
                 skip_confirmation = $true

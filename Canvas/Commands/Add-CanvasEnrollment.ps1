@@ -66,13 +66,13 @@ function Add-CanvasEnrollment {
     process
     {
         ($user_id, $enrollment, $uri) = switch($PSCmdlet.ParameterSetName) {
-            'PipedUser_CourseId_RoleId'  {( $PipedUser.user_id, @{ role_id = $RoleId }          , "/api/v1/courses/$CourseId/enrollments"                 )}
+            'PipedUser_CourseId_RoleId'  {( $PipedUser.user_id, @{ role_id = $RoleId           }, "/api/v1/courses/$CourseId/enrollments"                 )}
             'PipedUser_CourseId_Role'    {( $PipedUser.user_id, @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$CourseId/enrollments"                 )}
-            'PipedUser_SectionId_RoleId' {( $PipedUser.user_id, @{ role_id = $RoleId }          , "/api/v1/sections/$SectionId/enrollments"               )}
+            'PipedUser_SectionId_RoleId' {( $PipedUser.user_id, @{ role_id = $RoleId           }, "/api/v1/sections/$SectionId/enrollments"               )}
             'PipedUser_SectionId_Role'   {( $PipedUser.user_id, @{ type = $Role + 'Enrollment' }, "/api/v1/sections/$SectionId/enrollments"               )}
-            'UserId_CourseId_RoleId'     {( $UserId           , @{ role_id = $RoleId }          , "/api/v1/courses/$CourseId/enrollments"                 )}
-            'UserId_SectionId_RoleId'    {( $UserId           , @{ role_id = $RoleId }          , "/api/v1/sections/$SectionId/enrollments"               )}
-            'PipedCourse_RoleId'         {( $UserId           , @{ role_id = $RoleId }          , "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )}
+            'UserId_CourseId_RoleId'     {( $UserId           , @{ role_id = $RoleId           }, "/api/v1/courses/$CourseId/enrollments"                 )}
+            'UserId_SectionId_RoleId'    {( $UserId           , @{ role_id = $RoleId           }, "/api/v1/sections/$SectionId/enrollments"               )}
+            'PipedCourse_RoleId'         {( $UserId           , @{ role_id = $RoleId           }, "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )}
             'UserId_CourseId_Role'       {( $UserId           , @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$CourseId/enrollments"                 )}
             'UserId_SectionId_Role'      {( $UserId           , @{ type = $Role + 'Enrollment' }, "/api/v1/sections/$SectionId/enrollments"               )}
             'PipedCourse_Role'           {( $UserId           , @{ type = $Role + 'Enrollment' }, "/api/v1/courses/$($PipedCourse.course_id)/enrollments" )}

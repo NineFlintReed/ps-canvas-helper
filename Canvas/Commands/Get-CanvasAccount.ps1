@@ -1,7 +1,4 @@
 
-Set-StrictMode -Version 'Latest'
-
-
 function get_getaccount_runner {
     Param($parameter_set, $parameters)
     $script_table = @{

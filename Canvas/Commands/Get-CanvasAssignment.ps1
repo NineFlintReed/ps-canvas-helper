@@ -1,5 +1,9 @@
 
 
+# GET /api/v1/courses/:course_id/assignments/:id 
+# GET /api/v1/courses/:course_id/assignments 
+# GET /api/v1/users/:user_id/courses/:course_id/assignments 
+# GET /api/v1/courses/:course_id/assignment_groups/:assignment_group_id/assignments 
 
 function Get-CanvasAssignment {
     [CmdletBinding(DefaultParameterSetName = 'CourseId')]

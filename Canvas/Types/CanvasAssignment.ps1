@@ -67,7 +67,7 @@ class CanvasAssignment {
     [Nullable[Datetime]]$updated_at
     [String]$workflow_state
 
-    CanvasCourse([Collections.IDictionary]$Object) {
+    CanvasAssignment([Collections.IDictionary]$Object) {
         $this.allowed_attempts                     = $Object['allowed_attempts']
         $this.annotatable_attachment_id            = $Object['annotatable_attachment_id']
         $this.anonymize_students                   = $Object['anonymize_students']

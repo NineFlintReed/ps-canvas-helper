@@ -17,6 +17,7 @@ ScriptsToProcess = @(
     './Types/CanvasUser.ps1'
     './Types/CanvasEnrollment.ps1'
     './Types/CanvasSection.ps1'
+    './Types/CanvasAssignment.ps1'
 )
 
 FunctionsToExport = @(
@@ -34,6 +35,7 @@ FunctionsToExport = @(
     'Enable-CanvasEnrollment'
     'Remove-CanvasEnrollment'
     'Get-CanvasRole'
+    'Get-CanvasAssignment'
 )
 CmdletsToExport = @()
 VariablesToExport = '*'

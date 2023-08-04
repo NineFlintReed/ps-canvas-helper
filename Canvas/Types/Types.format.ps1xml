@@ -178,7 +178,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>assignment_id</Label>
-            <Width>7</Width>
+            <Width>13</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -188,7 +188,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>course_id</Label>
-            <Width>7</Width>
+            <Width>9</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>

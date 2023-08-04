@@ -1,25 +1,25 @@
 
+
+
 function Get-CanvasAssignment {
-    [CmdletBinding(DefaultParameterSetName='Course')]
+    [CmdletBinding(DefaultParameterSetName = 'CourseId')]
     Param(
-        [Parameter(ParameterSetName='Course')]
+        [Parameter(ParameterSetName = 'CourseId_AssignmentId')]    
+        [Parameter(ParameterSetName = 'CourseId')]
         [Int]$CourseId,
 
-        [Parameter(ParameterSetName='Course')]
-        [Parameter(ParameterSetName='Single')]
+        [Parameter(ParameterSetName = 'CourseId_AssignmentId')]
         [Int]$AssignmentId
     )
 
-    
     $endpoint = switch($PSCmdlet.ParameterSetName) {
-        'Course' { "/api/v1/courses/$CourseId/assignments"               }
-        'Single' { "/api/v1/courses/$CourseId/assignments/$AssignmentId" }
+        'CourseId'              { "/api/v1/courses/$CourseId/assignments"               }
+        'CourseId_AssignmentId' { "/api/v1/courses/$CourseId/assignments/$AssignmentId" }
         default {
             throw
         }
     }
     
-
     $params = @{
         Method = 'GET'
         Endpoint = $endpoint
@@ -29,8 +29,10 @@ function Get-CanvasAssignment {
     ForEach-Object {
         [CanvasAssignment]::new($_)
     }
-
 }
+
+
+
 
 
 

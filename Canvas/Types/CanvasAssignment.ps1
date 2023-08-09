@@ -46,7 +46,7 @@ class CanvasAssignment {
     [Nullable[Bool]]$omit_from_final_grade
     [Nullable[Bool]]$only_visible_to_overrides
     [Nullable[Int]]$original_assignment_id
-    [Nullable[Int]]$original_assignment_name
+    [String]$original_assignment_name
     [Nullable[Int]]$original_course_id
     [Nullable[Int]]$original_lti_resource_link_id
     [Nullable[Int]]$original_quiz_id

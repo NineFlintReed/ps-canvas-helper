@@ -21,6 +21,9 @@ ScriptsToProcess = @(
 )
 
 FunctionsToExport = @(
+    'Set-CanvasItemLockState'
+    'Unlock-CanvasItem'
+    'Lock-CanvasItem'
     'Invoke-CanvasRequest'
     'Get-CanvasAccount'
     'Get-CanvasTerm'

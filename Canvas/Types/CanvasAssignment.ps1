@@ -48,7 +48,7 @@ class CanvasAssignment {
     [Nullable[Int]]$original_assignment_id
     [String]$original_assignment_name
     [Nullable[Int]]$original_course_id
-    [Nullable[Int]]$original_lti_resource_link_id
+    [String]$original_lti_resource_link_id
     [Nullable[Int]]$original_quiz_id
     [Nullable[Bool]]$peer_reviews
     [Nullable[Double]]$points_possible

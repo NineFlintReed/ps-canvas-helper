@@ -39,6 +39,7 @@ FunctionsToExport = @(
     'Remove-CanvasEnrollment'
     'Get-CanvasRole'
     'Get-CanvasAssignment'
+    'Remove-CanvasAssignment'
     'Copy-CanvasCourse'
 )
 CmdletsToExport = @()

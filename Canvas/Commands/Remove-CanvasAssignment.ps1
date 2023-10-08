@@ -7,7 +7,7 @@ function Remove-CanvasAssignment {
         [Int]$AssignmentId
     )
 
-    $result = canvas DELETE "/api/v1/courses/$CourseId)/assignments/$AssignmentId"
+    $result = canvas DELETE "/api/v1/courses/$CourseId/assignments/$AssignmentId"
 
     return [CanvasAssignment]::new($result)
 }

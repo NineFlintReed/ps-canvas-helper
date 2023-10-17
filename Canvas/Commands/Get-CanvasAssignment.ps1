@@ -8,6 +8,9 @@
 function Get-CanvasAssignment {
     [CmdletBinding(DefaultParameterSetName = 'CourseId')]
     Param(
+        [Parameter(ValueFromPipeline, DontShow, ParameterSetName = 'PipedCourse')]
+        [CanvasCourse]$PipedCourse,
+
         [Parameter(ParameterSetName = 'CourseId_AssignmentId')]    
         [Parameter(ParameterSetName = 'CourseId')]
         [Int]$CourseId,
@@ -16,22 +19,26 @@ function Get-CanvasAssignment {
         [Int]$AssignmentId
     )
 
-    $endpoint = switch($PSCmdlet.ParameterSetName) {
-        'CourseId'              { "/api/v1/courses/$CourseId/assignments"               }
-        'CourseId_AssignmentId' { "/api/v1/courses/$CourseId/assignments/$AssignmentId" }
-        default {
-            throw
+    process
+    {
+        $endpoint = switch($PSCmdlet.ParameterSetName) {
+            'CourseId'              { "/api/v1/courses/$CourseId/assignments"               }
+            'CourseId_AssignmentId' { "/api/v1/courses/$CourseId/assignments/$AssignmentId" }
+            'PipedCourse'           { "/api/v1/courses/$($PipedCourse.id)/assignments" }
+            default {
+                throw
+            }
         }
-    }
-    
-    $params = @{
-        Method = 'GET'
-        Endpoint = $endpoint
-    }
+        
+        $params = @{
+            Method = 'GET'
+            Endpoint = $endpoint
+        }
 
-    Invoke-CanvasRequest @params |
-    ForEach-Object {
-        [CanvasAssignment]::new($_)
+        Invoke-CanvasRequest @params |
+        ForEach-Object {
+            [CanvasAssignment]::new($_)
+        }
     }
 }
 

@@ -1,13 +1,25 @@
-# todo fix this properly, needs pipeline input and more input validation
 function Remove-CanvasAssignment {
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
-        [Parameter(Mandatory)]
+        [Parameter(ValueFromPipeline, DontShow, ParameterSetName = 'PipedAssignment')]
+        [CanvasAssignment]$PipedAssignment,
+
+        [Parameter(Mandatory, ParameterSetName = 'Default')]
         [Int]$CourseId,
-        [Parameter(Mandatory)]
+        
+        [Parameter(Mandatory, ParameterSetName = 'Default')]
         [Int]$AssignmentId
     )
 
-    $result = canvas DELETE "/api/v1/courses/$CourseId/assignments/$AssignmentId"
+    process
+    {
+        $course_id, $assignment_id = switch($PSCmdlet.ParameterSetName) {
+            'Default' { ($CourseId,$AssignmentId) }
+            'PipedAssignment' { ($PipedAssignment.course_id,$PipedAssignment.id) }
+        }
 
-    return [CanvasAssignment]::new($result)
+        $result = canvas DELETE "/api/v1/courses/$course_id/assignments/$AssignmentId"
+    
+        Write-Output [CanvasAssignment]::new($result)
+    }
 }

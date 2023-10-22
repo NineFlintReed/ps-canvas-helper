@@ -7,6 +7,7 @@
 
 function Get-CanvasAssignment {
     [CmdletBinding(DefaultParameterSetName = 'CourseId')]
+    [OutputType([CanvasAssignment])]
     Param(
         [Parameter(ValueFromPipeline, DontShow, ParameterSetName = 'PipedCourse')]
         [CanvasCourse]$PipedCourse,

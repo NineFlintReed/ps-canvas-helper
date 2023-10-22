@@ -17,10 +17,11 @@ function get_getterm_runner {
     }
     switch($parameter_set) {
         #                type       implementing script              identifier
-        'All'         { ('account', $script_table.get_account_terms, 1)                                      }
-        'TermId'      { ('term'   , $script_table.get_single_term  , $parameters.TermId)                     }
-        'TermSisId'   { ('term'   , $script_table.get_single_term  , "sis_term_id:$($parameters.TermSisId)") }
-        'PipedCourse' { ('course' , $script_table.get_single_term  , $parameters.PipedCourse.term_id)        }    
+        'All'         { ('account', $script_table.get_account_terms, 1)                                                 }
+        'TermId'      { ('term'   , $script_table.get_single_term  , $parameters.TermId)                                }
+        'TermSisId'   { ('term'   , $script_table.get_single_term  , "sis_term_id:$($parameters.TermSisId)")            }
+        'PipedCourse' { ('course' , $script_table.get_single_term  , $parameters.PipedCourse.term_id)                   }
+        'Name'        { ('term'   , $script_table.get_single_term  , [int]($parameters.name.Substring(0,6).Trim('[]'))) }
         default {
             Write-Error "Could not find handler for parameter set '$parameter_set'" -ErrorAction Stop
         }
@@ -29,11 +30,16 @@ function get_getterm_runner {
 
 function Get-CanvasTerm {
     [CmdletBinding(DefaultParameterSetName = 'All')]
-    [OutputType([CanvasTerm], ParameterSetName = ('CourseId','CourseSisId','TermId','TermSisId','PipedCourse'))]
+    [OutputType([CanvasTerm], ParameterSetName = ('Name','CourseId','CourseSisId','TermId','TermSisId','PipedCourse'))]
     [OutputType([CanvasTerm[]], ParameterSetName = ('All'))]
     Param(
         [Parameter(ValueFromPipeline, DontShow, ParameterSetName = 'PipedCourse')]
         [CanvasCourse]$PipedCourse,
+
+        [Parameter(Position=0,ParameterSetName = 'Name')]
+        [ValidateSet([CanvasTermNames])]
+        [ArgumentCompletions([CanvasTermNames])]
+        [String]$Name,
 
         [Parameter(ParameterSetName = 'TermId')]
         [Int]$TermId,

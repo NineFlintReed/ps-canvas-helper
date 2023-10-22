@@ -1,5 +1,6 @@
 function Remove-CanvasAssignment {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [OutputType([CanvasAssignment])]
     Param(
         [Parameter(ValueFromPipeline, DontShow, ParameterSetName = 'PipedAssignment')]
         [CanvasAssignment]$PipedAssignment,

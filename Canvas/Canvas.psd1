@@ -18,9 +18,11 @@ ScriptsToProcess = @(
     './Types/CanvasEnrollment.ps1'
     './Types/CanvasSection.ps1'
     './Types/CanvasAssignment.ps1'
+    './Types/Validators.ps1'
 )
 
 FunctionsToExport = @(
+    'Connect-Canvas'
     'Set-CanvasItemLockState'
     'Unlock-CanvasItem'
     'Lock-CanvasItem'
